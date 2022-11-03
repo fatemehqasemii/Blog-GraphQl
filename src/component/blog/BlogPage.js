@@ -1,28 +1,32 @@
 import React from "react";
-import sanitizeHtml from "sanitize-html";
-import { useNavigate, useParams } from "react-router-dom";
-import Loader from "../shared/Loader";
-import { GET_BLOG_INFO } from "../../graphql/queries";
 import { useQuery } from "@apollo/client";
+import { useNavigate, useParams } from "react-router-dom";
+import { GET_POST_INFO } from "../../graphql/queries";
+import Loader from "../shared/Loader";
 import { Container } from "@mui/system";
-import { Avatar, Grid, Typography, Box } from "@mui/material";
-import { ArrowBackRounded } from "@mui/icons-material";
+import { Avatar, Box, Grid, Typography } from "@mui/material";
+import sanitizeHtml from "sanitize-html";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
 import CommentForm from "../comments/CommentForm";
 import Comments from "../comments/Comments";
 
 function BlogPage() {
   const { slug } = useParams();
   const navigate = useNavigate();
-  const { loading, data, error } = useQuery(GET_BLOG_INFO, {
-    variables: { slug: slug },
+
+  const { loading, data, errors } = useQuery(GET_POST_INFO, {
+    variables: { slug },
   });
+
   if (loading) return <Loader />;
-  if (error) return <h3>Error...</h3>;
-  console.log(data);
+
+  if (errors) return <h3>Error...</h3>;
+
+
   return (
     <Container maxWidth="lg">
       <Grid container>
-        <Grid xs={12} mt={9} display="flex" justifyContent="space-between">
+        <Grid item xs={12} mt={9} display="flex" justifyContent="space-between">
           <Typography
             component="h2"
             variant="h4"
@@ -31,15 +35,14 @@ function BlogPage() {
           >
             {data.post.title}
           </Typography>
-          <ArrowBackRounded onClick={() => navigate(-1)} />
+          <ArrowBackRoundedIcon onClick={() => navigate(-1)} />
         </Grid>
-        <Grid item xs={12} mt={7} paddingRight="20rem">
+        <Grid item xs={12} mt={6}>
           <img
-            alignItems="center"
             src={data.post.coverPhoto.url}
             alt={data.post.slug}
-            width="500px"
-            style={{ borderRadius: 10 }}
+            width="100%"
+            style={{ borderRadius: 15 }}
           />
         </Grid>
         <Grid item xs={12} mt={7} display="flex" alignItems="center">
