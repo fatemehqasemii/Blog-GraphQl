@@ -10,7 +10,7 @@ function Header() {
         <Toolbar>
           <Typography component="h1" variant="h5" fontWeight="700" flex={1}>
             <Link to="/" style={{ textDecoration: "none", color: "#fff" }}>
-              وبلاگ بوتواستارت
+            وبلاگ ارگانیک مایندد
             </Link>
           </Typography>
           <Link to="/" style={{ color: "#fff" }}>
